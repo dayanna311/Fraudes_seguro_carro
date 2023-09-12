@@ -1,0 +1,39 @@
+ Análisis descriptivo
+
+Se trata de una base de datos de 15420 registros y 33 variables. En los que se presenta la información de reclamaciones de siniestro. 
+   La base nos muestran los registros de accidentes para 3 años (1994, 1995, 1996), la mayoría de siniestros ocurren el día lunes y en el mes de Enero. 
+   923 reclamaciones fueron fraudulentas, de la cual se concluye lo siguiente: 
+
+- Se evidencia que el número de casos fraudulentos ha disminuido año a año, cayendo en un 33,5% con respecto al año inicial
+- Al realizar una prueba fisher se concluye que es estadísticamente el sexo tiene un efecto en el cometer un fraude.
+- En cuanto a los grupos de edad no hay una relevancia estadística con el comerter fraude, sin embargo de forma absoluta, el mayor número de registros lo tienen 
+las personas entre los 28 y 48 años, con 568 casos.
+- Existe una correlación entre adquierir un seguro por 500 y cometer fraude
+- Existe correlación entre tener un seguro todo riesgo y cometer fraude
+- Existe correlación cuando el valor del vehiculo  está por debajo de 200 o mayor a 6900 y cometer fraude
+- Existe correlación si entre la adiquisión del vehiculo y el accidente no hayan pasado ningún día y cometer fraude
+
+Adicional : existe correlación entre tener un vehiculo por debajo de 2000 o por encima de 6900, adquirir un seguro todo riesgo y estar en un rango de edad por encima de 48.
+Esta información nos sirve como un perfilamiento de las personas que tienen mayor probabiidad de comprar un seguro y hacer una reclamación fraudulenta. 
+que se pueden en traducir en diferentes acciones: subir el precio de la pólizas para aquellas personas que tienen un vehículo por encima de 20000 o por encima de 69000,
+personas por encima de 48 años, entre otros. 
+
+
+Modelo  
+  
+Se realiza un modelo de clasificación utilizando algunas de la variables relevantes de acuerdo al analisis exploratorio realizado. 
+El objetivo con este modelo es identificar aquellos reportes de siniestros que por sus características tienen mayor  probabilidad de ser fraudulento o no. 
+De esta forma se inicia seleccionando las variables de interés y convertir aquellas variables categoricas es dummies, seguido a esto se balancea  la muestra
+y se comienza a realizar el entreamiento del modelo. 
+
+Como resultado, he logrado desarrollar un modelo con una precisión del 66,6%. El valor agregado que este tipo de modelo proporciona al negocio radica en su eficiencia 
+para identificar posibles casos fraudulentos, lo cual ayudaría a reducir las pérdidas. Sin embargo, para mejorar el rendimiento del modelo, es importante continuar 
+explorando otras variables que nos permitan enriquecerlo y proporcionar una mejor explicación de la ocurrencia de casos fraudulentos.
+
+Visualizacion: 
+El tablero se encuentra también en tableu public,  en el siguiente link 
+
+https://public.tableau.com/views/Fraudes_16889675299990/Dashboard1?:language=es-ES&:display_count=n&:origin=viz_share_link
+  
+  
+  
