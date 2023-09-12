@@ -1,0 +1,91 @@
+/// 1. Punto 1. Crear tabla 
+
+
+CREATE TABLE IF NOT EXISTS public.fraudes
+(
+    monthh text COLLATE pg_catalog."default",
+    weekofmonth integer,
+    dayofweek text COLLATE pg_catalog."default",
+    make text COLLATE pg_catalog."default",
+    accidentarea text COLLATE pg_catalog."default",
+    dayofweekclaimed text COLLATE pg_catalog."default",
+    monthclaimed text COLLATE pg_catalog."default",
+    weekofmonthclaimed integer,
+    sex text COLLATE pg_catalog."default",
+    maritalstatus text COLLATE pg_catalog."default",
+    age integer,
+    fault text COLLATE pg_catalog."default",
+    policytype text COLLATE pg_catalog."default",
+    vehiclecategory text COLLATE pg_catalog."default",
+    vehicleprice text COLLATE pg_catalog."default",
+    fraudfound_p integer,
+    policynumber integer,
+    repnumber integer,
+    deductible integer,
+    driverrating integer,
+    days_policy_accident text COLLATE pg_catalog."default",
+    days_policy_claim text COLLATE pg_catalog."default",
+    pastnumberofclaims text COLLATE pg_catalog."default",
+    ageofvehicle text COLLATE pg_catalog."default",
+    ageofpolicyholder text COLLATE pg_catalog."default",
+    policereportfiled text COLLATE pg_catalog."default",
+    witnesspresent text COLLATE pg_catalog."default",
+    agenttype text COLLATE pg_catalog."default",
+    numberofsuppliments text COLLATE pg_catalog."default",
+    addresschange_claim text COLLATE pg_catalog."default",
+    numberofcars text COLLATE pg_catalog."default",
+    yearr integer,
+    basepolicy text COLLATE pg_catalog."default"
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.fraudes
+    OWNER to postgres;
+    
+// Carga del archivo csv 
+    
+SELECT * FROM public.fraudes
+COPY public.fraudes FROM 'C:\Users\dayan\Downloads\data_fraud.CSV' DELIMITER ',' CSV HEADER;
+
+/// punto 2. Replicar salida 
+
+// Crear la tablas con el cálculo respectivo de los porcentajes de fraude por mes, semana y día  
+
+CREATE TABLE fraud_month_week AS	
+   SELECT
+   Monthh,
+   WeekOfMonth,
+   SUM (FraudFound_P)*100.0/ COUNT(FraudFound_P) as percentage_fraud_month_week
+   FROM fraudes 
+   GROUP BY Monthh,WeekOfMonth;
+
+CREATE TABLE fraud_month_week_day AS	
+   SELECT
+   Monthh,
+   WeekOfMonth,
+   DayOfWeek,
+   SUM (FraudFound_P)*100.0/ COUNT(FraudFound_P) as percentage_fraud_month_week_day
+FROM 
+    fraudes
+ GROUP BY Monthh,WeekOfMonth, DayOfWeek;
+ 
+ CREATE TABLE fraud_month AS	
+   SELECT
+   Monthh,
+   SUM (FraudFound_P)*100.0/ COUNT(FraudFound_P) as percentage_fraud_month
+   FROM fraudes 
+   GROUP BY Monthh;
+
+// Se realiza Join entre las tres tablas creadas para enlazar los resultados
+
+SELECT fraud_month_week_day.monthh, 
+       fraud_month_week_day.WeekOfMonth,
+	   fraud_month_week_day.dayofweek, 
+	   fraud_month_week_day.percentage_fraud_month_week_day, 
+	   fraud_month_week.percentage_fraud_month_week, 
+	   fraud_month.percentage_fraud_month	   
+FROM ((fraud_month_week_day 
+INNER JOIN fraud_month_week ON fraud_month_week_day.monthh = fraud_month_week.monthh and
+            fraud_month_week_day.WeekOfMonth = fraud_month_week.WeekOfMonth)
+INNER JOIN fraud_month ON fraud_month_week_day.monthh = fraud_month.monthh);
